@@ -1,0 +1,88 @@
+WLAN Automation Framework: Integration, Testing, and Performance Evaluation
+1. Introduction
+
+Wireless Local Area Network (WLAN) validation is a critical aspect of embedded and networking systems, ensuring reliable connectivity, security compliance, and stable performance. This project focuses on the design and implementation of an automated WLAN testing framework that validates security, connectivity, stability, and performance of a Linux-based device under test (DUT). The automation framework is implemented using Python and pytest, with remote command execution enabled through SSH.
+
+2. System Architecture
+
+The test setup consists of two primary systems:
+
+Test Controller: A Windows-based system running Python automation scripts using pytest.
+
+Device Under Test (DUT): A Linux-based system connected to a WLAN network.
+
+The controller communicates with the DUT using SSH (Paramiko) to remotely execute network commands such as nmcli, iwgetid, ping, and iperf3. This architecture enables centralized test control while validating real WLAN behavior on the DUT.
+
+3. Test Framework Design
+
+The automation framework is modular and portable, with no hard-coded system paths. Configuration details such as SSID, IP address, and security modes are stored in YAML files and loaded dynamically at runtime. The framework includes the following test categories:
+
+3.1 WLAN Security Tests
+
+Security tests validate:
+
+Successful association with the configured SSID
+
+Correct retrieval of the connected SSID
+
+Verification of WLAN security modes against configuration
+
+These tests ensure that the DUT connects to the intended network with the expected security configuration.
+
+3.2 WLAN Stability Test
+
+Stability is verified using a ping-based test case that measures packet loss between the controller and the DUT. The test asserts that packet loss remains below an acceptable threshold, ensuring basic network reliability and platform stability.
+
+3.3 WLAN Performance Test
+
+Performance testing is automated using the iperf3 tool. The framework programmatically:
+
+Starts an iperf3 server on the DUT in the background
+
+Executes a reverse TCP throughput test from the client
+
+Parses throughput results programmatically
+
+Cleans up server processes after execution
+
+The performance test validates successful throughput measurement rather than enforcing rigid benchmarks, acknowledging that WLAN performance is environment-dependent.
+
+4. Automation and Reporting
+
+All test cases are executed using pytest, and results are consolidated into a self-contained HTML report. This report provides:
+
+Test execution summary
+
+Pass/fail status for each test case
+
+Environment metadata for reproducibility
+
+The automated report enables easy review, sharing, and validation of test outcomes.
+
+5. Results and Discussion
+
+All WLAN security, stability, and performance test cases executed successfully in the given environment. The results confirm:
+
+Correct WLAN association and security configuration
+
+Stable connectivity with negligible packet loss
+
+Successful automated throughput testing
+
+Performance results are interpreted qualitatively due to shared network conditions, which may introduce variability in absolute throughput values.
+
+6. Limitations and Future Work
+
+The tests were conducted in a shared academic network environment, limiting strict control over RF conditions. Future enhancements include:
+
+Performance evaluation in an isolated WLAN setup
+
+Extended testing for UDP throughput and latency
+
+Adding OSPF
+
+Long-duration stress and reliability testing
+
+7. Conclusion
+
+This project demonstrates a robust and extensible WLAN automation framework capable of validating security, stability, and performance using a unified test infrastructure. By combining SSH-based remote execution, structured configuration management, and automated reporting, the framework reflects industry-standard practices for WLAN validation and provides a strong foundation for future enhancements.
